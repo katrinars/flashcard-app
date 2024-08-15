@@ -1,7 +1,7 @@
 'use client'
 
 import {useUser} from '@clerk/nextjs';
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useRouter} from 'next/navigation'
 import {
     Box, Button, Card, CardActionArea, CardContent, Container, Dialog, DialogActions,
@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import {collection, doc, getDoc, setDoc, writeBatch} from "firebase/firestore";
 import db from "@/firebase";
-
 
 export default function Generate() {
     const {isLoaded, isSignedIn, user} = useUser()
@@ -33,17 +32,23 @@ export default function Generate() {
                 method: 'POST',
                 body: text,
             })
-                .then((res) => res.json())
-                .then((data) => {setFlashcards(data)})
-            if (!response.ok) {
-                throw new Error('Failed to generate flashcards')
-            }
-
-            const data = await response.json()
-            setFlashcards(data)
+            const cards = await response.json();
+            const sortedCards = cards.sort((a, b) => a.priority - b.priority);
+            setFlashcards(sortedCards);
         } catch (error) {
             alert(error)
         }
+    };
+
+    const getPriorityColor = (priority) => {
+        const colors = {
+            1: 'red',
+            2: 'orange',
+            3: 'green',
+            4: 'blue',
+            5: 'purple',
+        };
+        return colors[priority] || 'black'; // black as default
     }
 
     const handleCardClick = (id) => {
@@ -51,7 +56,7 @@ export default function Generate() {
             ...prev,
             [id]: !prev[id],
         }))
-    }
+    };
 
     const handleOpen = () => {
         setOpen(true)
@@ -91,7 +96,10 @@ export default function Generate() {
             const flashcardRef = collection(userDocRef, name)
             flashcards.forEach((flashcard) => {
                 const docRef = doc(flashcardRef)
-                batch.set(docRef, flashcard)
+                batch.set(docRef, {
+                    ...flashcard,
+                    priority: flashcard.priority || 3
+                })
             })
 
             await batch.commit()
@@ -104,7 +112,7 @@ export default function Generate() {
     }
 
     return (
-        <Container maxWidth="md">
+        <Container>
             <Box sx={{
                 mt: 4,
             }}
@@ -141,15 +149,33 @@ export default function Generate() {
                 </Paper>
             </Box>
             {flashcards.length > 0 && (
-                <Box sx={{mt: 4, justifyContent: 'center'}}>
-                    <Typography variant="h5" gutterBottom>
-                        Flashcards Preview
+                <Box sx={{mt: 4}}>
+
+                    <Grid container spacing={4} mx={6} mt={4} justifyContent={"space-around"}>
+                        <Grid item xs={12} md={6} mb={3} textTransform={'uppercase'}>
+                                <Typography variant="h3" >
+                                    Flashcard Preview
+                                </Typography>
+
+                        </Grid>
+                        <Grid item xs={12} md={6} mb={3} >
+                                <Button variant="contained" color="secondary" onClick={handleOpen} size={"large"}>
+                                    Save Flashcards for Task Descriptions
+                                </Button>
+                        </Grid>
+                    </Grid>
+                    <Typography variant="h6" mb={3}>
+                        Here's the list of tasks we found for you. Click any card to preview descriptions of the tasks. Save your collection to start checking tasks off.
                     </Typography>
+
                     <Grid container spacing={2}>
                         {flashcards.map((flashcard, index) => (
                             <Grid item xs={8} sm={6} md={4} key={index}>
-                                <Card>
-                                    <CardActionArea onClick={() => handleCardClick(index)}>
+                                <Card sx={{
+                                    bgcolor: flipped[flashcard.id] ? 'gray' : getPriorityColor(flashcard.priority) // color by priority, black when flipped to change shape
+                                }}>
+                                    <CardActionArea
+                                        onClick={() => handleCardClick(index)}>
                                         <CardContent>
                                             <Box sx={{
                                                 perspective: '1000px',
@@ -164,7 +190,6 @@ export default function Generate() {
                                                         ? 'rotateY(180deg)'
                                                         : 'rotateY(0deg)',
                                                     borderRadius: 2,
-                                                    bgcolor: 'background.paper',
                                                 },
                                                 '& > div > div': {
                                                     position: 'absolute',
@@ -177,24 +202,27 @@ export default function Generate() {
                                                     boxSizing: 'border-box',
                                                     borderRadius: 2,
                                                     padding: 2,
-
+                                                    bgcolor: 'white',
                                                 },
                                                 '& > div > div:nth-of-type(2)': {
                                                     transform: 'rotateY(180deg)'
                                                 }
                                             }}>
-                                                <div>
+                                                <Box>
                                                     <div>
-                                                        <Typography variant="h5" component="div">
-                                                            {flashcard.front}
-                                                        </Typography>
+                                                        <div>
+                                                            <Typography variant="h6" sx={{color: 'black'}}>
+                                                                {flashcard.title}
+                                                            </Typography>
+                                                        </div>
+
                                                     </div>
                                                     <div>
-                                                        <Typography variant="h5" component="div">
-                                                            {flashcard.back}
+                                                        <Typography variant="body2" sx={{color: 'black'}}>
+                                                            {flashcard.description}
                                                         </Typography>
                                                     </div>
-                                                </div>
+                                                </Box>
                                             </Box>
                                         </CardContent>
                                     </CardActionArea>
@@ -202,11 +230,6 @@ export default function Generate() {
                             </Grid>
                         ))}
                     </Grid>
-                    <Box sx={{mt: 4, justifyContent: 'center'}}>
-                        <Button variant="contained" color="secondary" onClick={handleOpen}>
-                            Save Flashcards
-                        </Button>
-                    </Box>
                 </Box>
             )}
             <Dialog open={open} onClose={handleClose}>
@@ -237,4 +260,3 @@ export default function Generate() {
     )
 
 }
-

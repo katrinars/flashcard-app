@@ -11,6 +11,7 @@ export default function Flashcard() {
     const { isLoaded, isSignedIn, user } = useUser()
     const [flashcards, setFlashcards] = useState([])
     const [flipped, setFlipped] = useState({})
+    const [hoveredCard, setHoveredCard] = useState(null)
 
     const searchParams = useSearchParams()
     const search = searchParams.get('id')
@@ -25,6 +26,8 @@ export default function Flashcard() {
             docs.forEach((doc) => {
                 flashcards.push({ id: doc.id, ...doc.data() })
             })
+            // Sort flashcards by priority (high to low)
+            flashcards.sort((a, b) => a.priority - b.priority)
             setFlashcards(flashcards)
         }
         getFlashcard()
@@ -35,10 +38,21 @@ export default function Flashcard() {
             ...prev,
             [id]: !prev[id],
         }))
-    }
+    };
+
+    const getPriorityColor = (priority) => {
+        const colors = {
+            1: 'red',
+            2: 'orange',
+            3: 'yellow',
+            4: 'green',
+            5: 'blue',
+        };
+        return colors[priority] || 'white'; // default white
+    };
 
     return (
-        <Container maxWidth="md">
+        <Container >
             <Box>
                 <Typography variant={"h2"} align={"center"} textTransform={"uppercase"} my={3}>
                     {search} Flashcards
@@ -46,9 +60,15 @@ export default function Flashcard() {
             </Box>
             <Grid container spacing={3} sx={{ mt: 4 }}>
                 {flashcards.map((flashcard) => (
-                    <Grid item xs={12} sm={6} md={4} key={flashcard.id}>
-                        <Card>
-                            <CardActionArea onClick={() => handleCardClick(flashcard.id)}>
+                    <Grid item xs={8} sm={6} md={4} key={flashcard.id}>
+                        <Card sx={{
+                            bgcolor: flipped[flashcard.id] ? 'black' : getPriorityColor(flashcard.priority), // color by priority, black when flipped to change shape
+                        }}>
+                            <CardActionArea
+                                onClick={() => handleCardClick(flashcard.id)}
+                                onMouseEnter={() => setHoveredCard(flashcard.id)}
+                                onMouseLeave={() => setHoveredCard(null)}
+                            >
                                 <CardContent>
                                     <Box sx={{
                                         perspective: '1000px',
@@ -63,7 +83,6 @@ export default function Flashcard() {
                                                 ? 'rotateY(180deg)'
                                                 : 'rotateY(0deg)',
                                             borderRadius: 2,
-                                            bgcolor: 'background.paper',
                                         },
                                         '& > div > div': {
                                             position: 'absolute',
@@ -76,24 +95,30 @@ export default function Flashcard() {
                                             boxSizing: 'border-box',
                                             borderRadius: 2,
                                             padding: 2,
-
+                                            bgcolor: 'white',
                                         },
                                         '& > div > div:nth-of-type(2)': {
-                                            transform: 'rotateY(180deg)'
+                                            transform: 'rotateY(180deg)',
                                         }
                                     }}>
-                                        <div>
+                                        <Box>
                                             <div>
-                                                <Typography variant="h5" component="div">
-                                                    {flashcard.front}
-                                                </Typography>
+                                                {hoveredCard === flashcard.id ? (
+                                                    <Typography variant="body2" sx={{ color: 'black' }}>
+                                                        {flashcard.description}
+                                                    </Typography>
+                                                ) : (
+                                                    <Typography variant="h6" sx={{ color: 'black' }}>
+                                                        {flashcard.title}
+                                                    </Typography>
+                                                )}
                                             </div>
                                             <div>
-                                                <Typography variant="h5" component="div">
-                                                    {flashcard.back}
+                                                <Typography variant="body1" sx={{ color: 'black' }}>
+                                                    {flashcard.tagline}
                                                 </Typography>
                                             </div>
-                                        </div>
+                                        </Box>
                                     </Box>
                                 </CardContent>
                             </CardActionArea>

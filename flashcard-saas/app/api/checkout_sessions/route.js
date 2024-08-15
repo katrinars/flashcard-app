@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
-import {json} from "next/dist/client/components/react-dev-overlay/server/shared";
-import getStripe from "@/utils/get-stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
@@ -15,10 +13,6 @@ export async function GET(req) {
     const session_id = searchParams.get('session_id')
 
     try {
-        // if (!session_id) {
-        //     throw new Error('Session ID is required')
-        // }
-
         const checkoutSession = await stripe.checkout.sessions.retrieve(session_id)
         return NextResponse.json(checkoutSession)
 
@@ -34,8 +28,20 @@ export async function GET(req) {
 
 
 export async function POST(req) {
-    // try {
+    const body = await req.json()
+    const { plan } = body
 
+    let amount
+    switch (plan) {
+        case 'Student':
+            amount = 3
+            break
+        case 'Pro':
+            amount = 10
+            break
+        default:
+            return NextResponse.json({error: 'Invalid plan'}, {status: 400})
+    }
     const params = {
         mode: 'subscription',
         payment_method_types: ['card'],
@@ -44,9 +50,9 @@ export async function POST(req) {
                 price_data: {
                     currency: 'usd',
                     product_data: {
-                        name: 'Pro subscription',
+                        name: `${plan} Subscription`,
                     },
-                    unit_amount: formatAmountForStripe(10, 'usd'), // $10.00
+                    unit_amount: formatAmountForStripe(amount, 'usd'), // $10.00
                     recurring: {
                         interval: 'month',
                         interval_count: 1,
@@ -55,8 +61,11 @@ export async function POST(req) {
                 quantity: 1,
             },
         ],
-        success_url: `${req.headers.get.origin}result?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${req.headers.get.origin}result?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `http://localhost:3000/result?session_id={CHECKOUT_SESSION_ID}&plan=${plan}`,
+        cancel_url: `http://localhost:3000/result?session_id={CHECKOUT_SESSION_ID}&plan=${plan}`,
+        metadata: {
+            tier: plan
+        }
     }
 
     const checkoutSession = await stripe.checkout.sessions.create(params)

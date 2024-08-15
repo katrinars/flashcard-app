@@ -6,12 +6,13 @@ import getStripe from "@/utils/get-stripe";
 
 
 export default function Home() {
-  const handleSubmit = async () => {
+  const handleSubmit = async (plan) => {
 
-    const checkoutSession = await fetch('/api/checkout_sessions', {
+    const checkoutSession = await fetch('../api/checkout_sessions', {
       method: 'POST',
-      headers:
-        {origin: 'http://localhost:3000'},
+        headers:
+            {'Content-Type': 'application/json',},
+        body: JSON.stringify({ plan }),
     })
 
     const checkoutSessionJson = await checkoutSession.json()
@@ -69,7 +70,7 @@ export default function Home() {
           <Typography variant="h4" component="h2" gutterBottom textAlign={'center'}>
             Features
           </Typography>
-          <Box container spacing={4}>
+          <Grid container spacing={4}>
             <Box
                 sx={{
                   display: 'flex',
@@ -98,7 +99,7 @@ export default function Home() {
                 </Typography>
               </Grid>
             </Box>
-          </Box>
+          </Grid>
         </Box>
 
         <Box sx={{my: 6, textAlign: 'center'}}>
@@ -115,13 +116,14 @@ export default function Home() {
                   }}
               >
                 <Typography variant="h6">
-                  Student - FREE FOREVER
+                  Student - $3 / mo
                 </Typography>
                 <Typography>
                   {' '}
                   3 flashcards per month. Perfect for students.
                 </Typography>
-                <Button variant="outlined" color="primary" sx={{mt: 2, mr: 2}}>
+                <Button variant="outlined" color="primary" sx={{mt: 2, mr: 2}}
+                        onClick={() => handleSubmit('Student')}>
                   CHOOSE STUDENT
                 </Button>
               </Box>
@@ -144,7 +146,7 @@ export default function Home() {
                   Up to 20 flashcards per month. Perfect for personal use.
                 </Typography>
                 <Button variant="outlined" color="primary" sx={{mt: 2, mr: 2}}
-                        onClick={handleSubmit()}>
+                        onClick={() => handleSubmit('Pro')}>
                   CHOOSE PRO
                 </Button>
               </Box>

@@ -29,7 +29,7 @@ export default function Generate() {
         }
 
         try {
-            const response = await fetch('/api/generate', {
+            const response = await fetch('./api/generate', {
                 method: 'POST',
                 body: text,
             })

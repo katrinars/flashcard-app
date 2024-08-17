@@ -28,6 +28,7 @@ import {
   writeBatch,
 } from "firebase/firestore";
 import db from "@/firebase";
+import ProgressBar from "@/utils/get-progress";
 
 export default function Generate() {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -194,7 +195,6 @@ export default function Generate() {
             descriptions of the tasks. Save your collection to start checking
             tasks off.
           </Typography>
-
           <Grid container spacing={2}>
             {flashcards.map((flashcard, index) => (
               <Grid item xs={8} sm={6} md={4} key={index}>

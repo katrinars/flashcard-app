@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import {collection, doc, getDoc, setDoc, writeBatch} from "firebase/firestore";
 import db from "@/firebase";
+import ProgressBar from "@/utils/get-progress";
 
 export default function Generate() {
     const {isLoaded, isSignedIn, user} = useUser()
@@ -20,12 +21,15 @@ export default function Generate() {
     const [open, setOpen] = useState(false)
     const [close, setClose] = useState()
     const router = useRouter()
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async () => {
         if (!text.trim()) {
-            alert('Please enter some text to generate flashcards.')
+            alert('We\'re good, but not that good. Type a sentence or two about what you need to plan.')
             return
         }
+
+        setIsLoading(true);
 
         try {
             const response = await fetch('./api/generate', {
@@ -37,6 +41,8 @@ export default function Generate() {
             setFlashcards(sortedCards);
         } catch (error) {
             alert(error)
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -146,6 +152,9 @@ export default function Generate() {
                     >
                         Generate Flashcards
                     </Button>
+                    <Box width={"100%"} mt={2}>
+                        {isLoading && <ProgressBar />}
+                    </Box>
                 </Paper>
             </Box>
             {flashcards.length > 0 && (

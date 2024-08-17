@@ -57,24 +57,24 @@ OPENAI_API_KEY
 
 ![demo](flashcard-saas/static/demo.gif)
 
-<table style="border-collapse: collapse; border: none;">
-    <tr>
-        <td style="padding: 10px;" align="center" width="350px">
+<table>
+    <tr style="border-collapse: collapse; border: none;">
+        <td style="border: none; padding: 10px;" align="center" width="350px">
             <div>
-                <h4>AI-Generated Task Lists</h3>
-                <h4>Auto Task Ranking</h3>
-                <h4>Firebase Database Integration</h3>
-                <h4>Daily Focus List</h3>
-                <h4>Clean, Intuitive Interface</h3>
+                <h4>AI-Generated Task Lists</h4>
+                <h4>Auto Task Ranking</h4>
+                <h4>Firebase Database Integration</h4>
+                <h4>Daily Focus List</h4>
+                <h4>Clean, Intuitive Interface</h4>
             </div>
         </td>
         <td style="border: none; padding: 10px;" align="center" width="350px">
             <div>
-                <h4>Add/Edit/Delete Tasks </h3>
-                <h4>Dark/Light mode  </h3>
-                <h4>Mobile Responsive</h3>
-                <h4>User Authentication</h3>
-                <h4>Stripe Payment Integration</h3>
+                <h4>Add/Edit/Delete Tasks </h4>
+                <h4>Dark/Light mode  </h4>
+                <h4>Mobile Responsive</h4>
+                <h4>User Authentication</h4>
+                <h4>Stripe Payment Integration</h4>
             </div>
         </td>
     </tr>

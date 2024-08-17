@@ -101,6 +101,7 @@ Please consider giving us a star on GitHub. Thank you for your support! 🌟
   <tbody>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/katrinars"><img src="https://avatars.githubusercontent.com/u/135682193?v=4?s=100" width="100px;" alt="katrinars"/><br /><sub><b>katrinars</b></sub></a><br /><a href="https://github.com/katrinars/flashcard-app/commits?author=katrinars" title="Code">💻</a> <a href="https://github.com/katrinars/flashcard-app/commits?author=katrinars" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/xshlxy"><img src="https://avatars.githubusercontent.com/u/162643477?v=4?s=100" width="100px;" alt="Ashley Oliveira"/><br /><sub><b>Ashley Oliveira</b></sub></a><br /><a href="#design-xshlxy" title="Design">🎨</a></td>
     </tr>
   </tbody>
 </table>

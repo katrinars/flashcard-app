@@ -19,6 +19,15 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "xshlxy",
+      "name": "Ashley Oliveira",
+      "avatar_url": "https://avatars.githubusercontent.com/u/162643477?v=4",
+      "profile": "https://github.com/xshlxy",
+      "contributions": [
+        "design"
+      ]
     }
   ],
   "contributorsPerLine": 7,

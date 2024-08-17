@@ -4,37 +4,25 @@
 </a>
 
 
-<style>
-    h1, h2, h3, h4, h5, h6, p {
-        color: white;
-    }
-    a {
-        color: #F19Fe6;
-    }
-    * {
-        background-color: black;
-    }
-</style>
-
  
 # Cards Against Confusion
 
 ### Contents
 
-- [Lore](#lore)
+- [Why](#why)
 - [Running the App](#running-the-app)
 - [Features](#key-features)
-- [Support](#thank-you-for-your-support-)
+- [Support](#support)
 - [Contributors](#contributors)
 - [Credits](#credits)
 
-## Lore
+## Why
 
 [We](#contributors) met in a fellowship and were given a challenge - 
 create a flashcard app.
 
 We realized we weren't inspired by flashcards and decided to create 
-a task management app with a flashcard-inspired-UI. Cards Against Confusion 
+a task management app with a flashcard-inspired UI. Cards Against Confusion 
 uses AI to generate task lists based on user input. Tell the app what you want 
 to plan - with or without details - and receive a detailed task list with 
 descriptions and tasks ranked by priority.
@@ -42,8 +30,6 @@ descriptions and tasks ranked by priority.
 ---
 
 ## Running the App
-
----
 
 ```bash
 $ npm i
@@ -71,24 +57,24 @@ OPENAI_API_KEY
 
 ![demo](flashcard-saas/static/demo.gif)
 
-<table >
-    <tr style="border: none">
-        <td style="border: none" align="center" width="350px">
+<table style="border-collapse: collapse; border: none;">
+    <tr>
+        <td style="padding: 10px;" align="center" width="350px">
             <div>
-                <h3 style="color: white">AI-Generated Task Lists</h3>
-                <h3 style="color: white">Auto Task Ranking</h3>
-                <h3 style="color: white">Firebase Database Integration</h3>
-                <h3 style="color: white">Daily Focus List</h3>
-                <h3 style="color: white">Clean, Intuitive Interface</h3>
+                <h4>AI-Generated Task Lists</h3>
+                <h4>Auto Task Ranking</h3>
+                <h4>Firebase Database Integration</h3>
+                <h4>Daily Focus List</h3>
+                <h4>Clean, Intuitive Interface</h3>
             </div>
         </td>
-        <td  style="border: none" align="center" width="350px">
+        <td style="border: none; padding: 10px;" align="center" width="350px">
             <div>
-                <h3 style="color: white">Add/Edit/Delete Tasks </h3>
-                <h3 style="color: white">Dark/Light mode  </h3>
-                <h3 style="color: white">Mobile Responsive</h3>
-                <h3 style="color: white">User Authentication</h3>
-                <h3 style="color: white">Stripe Payment Integration</h3>
+                <h4>Add/Edit/Delete Tasks </h3>
+                <h4>Dark/Light mode  </h3>
+                <h4>Mobile Responsive</h3>
+                <h4>User Authentication</h3>
+                <h4>Stripe Payment Integration</h3>
             </div>
         </td>
     </tr>
@@ -99,7 +85,7 @@ OPENAI_API_KEY
 
 ---
 
-### Thank you for your support! 
+### Support
 [![Star this project](https://img.shields.io/github/stars/zenml-io/zenml?style=social)](https://github.com/katrinars/flashcard-app/stargazers)
 
 Please consider giving us a star on GitHub. Thank you for your support! 🌟

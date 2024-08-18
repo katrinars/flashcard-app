@@ -1,10 +1,7 @@
-
 <a href="https://localhost:3000/">
     <img src="flashcard-saas/static/headline.png" alt="Cards Against Confusion headline" align="center" />
 </a>
 
-
- 
 # Cards Against Confusion
 
 ### Contents
@@ -18,13 +15,13 @@
 
 ## Why
 
-[We](#contributors) met in a fellowship and were given a challenge - 
+[We](#contributors) met in a fellowship and were given a challenge -
 create a flashcard app.
 
-We realized we weren't inspired by flashcards and decided to create 
-a task management app with a flashcard-inspired UI. Cards Against Confusion 
-uses AI to generate task lists based on user input. Tell the app what you want 
-to plan - with or without details - and receive a detailed task list with 
+We realized we weren't inspired by flashcards and decided to create
+a task management app with a flashcard-inspired UI. Cards Against Confusion
+uses AI to generate task lists based on user input. Tell the app what you want
+to plan - with or without details - and receive a detailed task list with
 descriptions and tasks ranked by priority.
 
 ---
@@ -49,7 +46,7 @@ STRIPE_SECRET_KEY <br/>
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY <br/>
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY <br/>
 CLERK_SECRET_KEY <br/>
-OPENAI_API_KEY 
+OPENAI_API_KEY
 
 ---
 
@@ -80,16 +77,16 @@ OPENAI_API_KEY
     </tr>
 </table>
 
-           
+
 
 
 ---
 
 ### Support
+
 [![Star this project](https://img.shields.io/github/stars/zenml-io/zenml?style=social)](https://github.com/katrinars/flashcard-app/stargazers)
 
 Please consider giving us a star on GitHub. Thank you for your support! 🌟
-
 
 ## Contributors
 
@@ -114,7 +111,8 @@ Please consider giving us a star on GitHub. Thank you for your support! 🌟
 
 ## Credits
 
-- This app is heavily inspired by [Bill Zhang](https://medium.com/@billzhangsc/creating-a-flashcard-saas-with-openai-and-stripe-7896ddea1dbb).
+- This app is heavily inspired
+  by [Bill Zhang](https://medium.com/@billzhangsc/creating-a-flashcard-saas-with-openai-and-stripe-7896ddea1dbb).
 - [Cards Against Humanity](https://www.cardsagainsthumanity.com/) - name and design inspiration.
 
 --

@@ -32,6 +32,7 @@ flashcard-saas/.next
 *.pem
 .idea
 /.idea/
+.idea
 
 # debug
 npm-debug.log*
@@ -48,5 +49,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-#node stuff 
+
+# node stuff
 flashcard-saas/node_modules/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node
+node_modules/*
+*node_modules/*
+node_modules

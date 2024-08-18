@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server'
-import OpenAI from 'openai'
+import {NextResponse} from 'next/server';
+import OpenAI from 'openai';
 
 const systemPrompt = `
 You are a task card creator within a task management app. The cards you create should have four components: 
@@ -36,25 +36,25 @@ You should return in the following JSON format:
     }
   ]
 }
-`
+`;
 
 export async function POST(req) {
-    const openai = new OpenAI()
-    const data = await req.text()
+  const openai = new OpenAI();
+  const data = await req.text();
 
-    const completion = await openai.chat.completions.create({
-        messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: data },
-        ],
-        model: 'gpt-4o',
-        response_format: { type: 'json_object' },
-    })
+  const completion = await openai.chat.completions.create({
+    messages: [
+      {role: 'system', content: systemPrompt},
+      {role: 'user', content: data},
+    ],
+    model: 'gpt-4o',
+    response_format: {type: 'json_object'},
+  });
 
-    // Parse the JSON response from the OpenAI API
-    const flashcards = JSON.parse(completion.choices[0].message.content)
+  // Parse the JSON response from the OpenAI API
+  const flashcards = JSON.parse(completion.choices[0].message.content);
 
-    // Return the flashcards as a JSON response
-    return NextResponse.json(flashcards.flashcards)
+  // Return the flashcards as a JSON response
+  return NextResponse.json(flashcards.flashcards);
 
 }

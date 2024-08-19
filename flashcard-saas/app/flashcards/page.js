@@ -1,8 +1,8 @@
 'use client';
 
 import db from '@/firebase';
-import {useUser} from '@clerk/nextjs';
-import {Card, CardActionArea, CardContent, Container, Grid, Typography} from '@mui/material';
+import {useUser, SignedIn, SignedOut, UserButton} from '@clerk/nextjs';
+import {AppBar, Toolbar, Card, Button, CardActionArea, CardContent, Container, Grid, Typography} from '@mui/material';
 import {collection, doc, getDoc, setDoc} from 'firebase/firestore';
 import {useRouter} from 'next/navigation';
 import {useEffect, useState} from 'react';
@@ -34,6 +34,21 @@ export default function Flashcards() {
 
   return (
       <Container maxWidth="md">
+        <AppBar position="static" sx={{bgcolor:'black',}}>
+          <Container>
+            <Toolbar>
+              <Typography variant="h6" style={{flexGrow: 1, fontWeight: 'bold', fontStyle: 'Inter',}}>Cards Against Confusion</Typography> {/* change title */}
+              <SignedOut>
+                <Button color="inherit" href="/sign-in">Login</Button>
+                <Button color="inherit" href="/sign-up">Sign Up</Button>
+              </SignedOut>
+              <SignedIn>
+                <Button color="inherit" href="/flashcards">Projects</Button>
+                <UserButton/>
+              </SignedIn>
+            </Toolbar>
+          </Container>
+        </AppBar>
         <Grid container spacing={3} sx={{mt: 4}} bgcolor={'pink'}>
           {flashcards.map((flashcard, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>

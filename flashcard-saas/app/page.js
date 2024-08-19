@@ -17,6 +17,36 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   const router = useRouter();
 
+  const handleSubmit = async (plan) => {
+    try {
+      console.log("Sending request with plan:", plan);
+      const response = await fetch("../api/checkout_sessions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan }),
+      });
+
+      const responseData = await response.json();
+      console.log("Response data:", responseData);
+
+      if (!response.ok) {
+        throw new Error(
+          `HTTP error! status: ${response.status}, message: ${JSON.stringify(
+            responseData
+          )}`
+        );
+      }
+
+      if (responseData.url) {
+        window.location.href = responseData.url;
+      } else {
+        throw new Error("No checkout URL received");
+      }
+    } catch (error) {
+      console.error("Error in handleSubmit:", error);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -267,6 +297,14 @@ export default function Home() {
             your daily routine, Cards Against Confusion turns chaos into clear,
             actionable plans, boosting productivity and reducing stress.
           </Typography>
+          <Button
+            variant="outlined"
+            color="primary"
+            sx={{ mt: 2, mr: 2 }}
+            onClick={() => handleSubmit("Student")}
+          >
+            CHOOSE STUDENT
+          </Button>
         </Box>
       </Container>
     </Box>

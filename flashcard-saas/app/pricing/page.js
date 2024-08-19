@@ -1,10 +1,24 @@
 "use client";
 
-import { Box, Typography, Grid, Button } from "@mui/material";
+import React from "react";
+import {
+  AppBar,
+  Box,
+  Typography,
+  Grid,
+  Button,
+  Container,
+  Toolbar,
+} from "@mui/material";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import getStripe from "@/utils/get-stripe";
+import Link from "next/link";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 export default function PricingPage() {
+  const router = useRouter();
+
   const handleSubmit = async (plan) => {
     console.log(`Submitting plan: ${plan}`);
     try {
@@ -41,17 +55,17 @@ export default function PricingPage() {
   };
 
   const plans = [
-    { name: "Free.", price: "$0", description: "Basic features" },
+    { name: "Free", price: "$0", description: "Basic features" },
     {
-      name: "Students.",
+      name: "Student",
       price: "$2.99/month",
-      description: "Create up to 10 flashcard decks",
+      description: "Create up to 3 flashcard decks per month",
       buttonText: "CHOOSE STUDENT",
     },
     {
-      name: "Pro.",
+      name: "Pro",
       price: "$9.99/month",
-      description: "Unlimited flashcard decks",
+      description: "Create up to 20 flashcard decks per month",
       buttonText: "CHOOSE PRO",
     },
   ];
@@ -59,16 +73,98 @@ export default function PricingPage() {
   return (
     <Box
       sx={{
-        minHeight: "100vh",
         backgroundColor: "black",
+        minHeight: "100vh",
         color: "white",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        // justifyContent: "center",
         padding: 4,
       }}
     >
-      <Typography variant="h2" component="h1" sx={{ mb: 6 }}>
+      <AppBar
+        position="static"
+        sx={{
+          backgroundColor: "transparent",
+          boxShadow: "none",
+          marginBottom: 18,
+        }}
+      >
+        <Container>
+          <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{
+                fontWeight: "bold",
+                fontFamily: "Helvetica, Arial, sans-serif",
+                lineHeight: 1.25,
+                fontSize: "0.9rem",
+              }}
+            >
+              <Link
+                href="/"
+                passHref
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                Cards
+                <br />
+                Against
+                <br />
+                Confusion
+              </Link>
+            </Typography>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <SignedOut>
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "white",
+                    color: "black",
+                    "&:hover": {
+                      backgroundColor: "#e0e0e0",
+                    },
+                    mr: 1,
+                    fontFamily: "Helvetica, Arial, sans-serif",
+                  }}
+                  onClick={() => router.push("/sign-in")}
+                >
+                  Sign in
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "#333333",
+                    color: "white",
+                    "&:hover": {
+                      backgroundColor: "#4d4d4d",
+                    },
+                    fontFamily: "Helvetica, Arial, sans-serif",
+                  }}
+                  onClick={() => router.push("/sign-up")}
+                >
+                  Register
+                </Button>
+              </SignedOut>
+              <SignedIn>
+                <Button color="inherit" href="/generate">
+                  Add Project
+                </Button>
+                <Button color="inherit" href="/flashcards">
+                  Projects
+                </Button>
+                <Button color="inherit" href="/pricing">
+                  Pricing
+                </Button>
+                <UserButton />
+              </SignedIn>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+
+      <Typography variant="h2" component="h1" sx={{ mb: 6, color: "white" }}>
         Pricing Plans
       </Typography>
 
@@ -84,33 +180,41 @@ export default function PricingPage() {
               sx={{
                 backgroundColor: "#333",
                 borderRadius: 2,
-                height: 300,
+                height: 250,
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                padding: 2,
+                padding: 3,
               }}
             >
               <div>
-                <Typography variant="h5">{plan.name}</Typography>
-                <Typography variant="h6" sx={{ mt: 2 }}>
+                <Typography variant="h6" sx={{ color: "white", mb: 1 }}>
+                  {plan.name}.
+                </Typography>
+                <Typography variant="h5" sx={{ color: "white", mb: 1 }}>
                   {plan.price}
                 </Typography>
-                <Typography variant="body2" sx={{ mt: 1 }}>
+                <Typography variant="body2" sx={{ color: "#aaa" }}>
                   {plan.description}
                 </Typography>
               </div>
-              {(plan.name === "Students." || plan.name === "Pro.") && (
+              {plan.name !== "Free" && (
                 <Button
                   variant="contained"
-                  color="primary"
-                  sx={{ mt: 2 }}
-                  onClick={() => handleSubmit(plan.name.replace(".", ""))}
+                  sx={{
+                    mt: 2,
+                    backgroundColor: "#1976d2",
+                    color: "white",
+                    "&:hover": {
+                      backgroundColor: "#1565c0",
+                    },
+                  }}
+                  onClick={() => handleSubmit(plan.name)}
                 >
                   {plan.buttonText}
                 </Button>
               )}
-              <Box sx={{ alignSelf: "flex-end" }}>
+              <Box sx={{ alignSelf: "flex-end", color: "#aaa" }}>
                 <AutorenewIcon />
               </Box>
             </Box>

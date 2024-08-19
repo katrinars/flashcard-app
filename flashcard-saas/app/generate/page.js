@@ -221,7 +221,7 @@ export default function Generate() {
                   }}
                   onClick={() => router.push("/sign-up")}
                 >
-                  Sign Up
+                  Register
                 </Button>
               </SignedOut>
               <SignedIn>
@@ -231,12 +231,16 @@ export default function Generate() {
                 <Button color="inherit" href="/flashcards">
                   Projects
                 </Button>
+                <Button color="inherit" href="/pricing">
+                  Pricing
+                </Button>
                 <UserButton />
               </SignedIn>
             </Box>
           </Toolbar>
         </Container>
       </AppBar>
+
       <Container
         maxWidth={false}
         disableGutters

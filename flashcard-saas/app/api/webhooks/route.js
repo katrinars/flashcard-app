@@ -1,43 +1,74 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { clerkClient } from "@clerk/nextjs/server";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-export async function POST(req) {
-  const payload = await req.text();
-  const sig = req.headers.get("stripe-signature");
+const formatAmountForStripe = (amount, currency) => {
+  return Math.round(amount * 100);
+};
 
-  let event;
+export async function GET(req) {
+  const searchParams = req.nextUrl.searchParams;
+  const session_id = searchParams.get("session_id");
 
   try {
-    event = stripe.webhooks.constructEvent(payload, sig, webhookSecret);
-  } catch (err) {
-    console.error("Webhook signature verification failed:", err.message);
+    const checkoutSession = await stripe.checkout.sessions.retrieve(session_id);
+    return NextResponse.json(checkoutSession);
+  } catch (error) {
+    console.error("Error retrieving checkout session:", error);
     return NextResponse.json(
-      { error: `Webhook Error: ${err.message}` },
-      { status: 400 }
+      { error: { message: error.message } },
+      {
+        status: 500,
+      }
     );
   }
+}
 
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
+export async function POST(req) {
+  const body = await req.json();
+  const { plan } = body;
 
-    try {
-      const userId = session.client_reference_id;
-      const planName = session.metadata.plan;
-
-      // Update the user's metadata with their new plan
-      await clerkClient.users.updateUser(userId, {
-        publicMetadata: { plan: planName },
-      });
-
-      console.log(`Updated user ${userId} with plan ${planName}`);
-    } catch (error) {
-      console.error("Error updating user metadata:", error);
-    }
+  let amount;
+  switch (plan) {
+    case "Student":
+      amount = 3;
+      break;
+    case "Pro":
+      amount = 10;
+      break;
+    default:
+      return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
   }
+  const params = {
+    mode: "subscription",
+    payment_method_types: ["card"],
+    line_items: [
+      {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: `${plan} Subscription`,
+          },
+          unit_amount: formatAmountForStripe(amount, "usd"), // $10.00
+          recurring: {
+            interval: "month",
+            interval_count: 1,
+          },
+        },
+        quantity: 1,
+      },
+    ],
+    success_url: `http://localhost:3000/result?session_id={CHECKOUT_SESSION_ID}&plan=${plan}`,
+    cancel_url: `http://localhost:3000/result?session_id={CHECKOUT_SESSION_ID}&plan=${plan}`,
+    metadata: {
+      tier: plan,
+    },
+  };
 
-  return NextResponse.json({ received: true }, { status: 200 });
+  const checkoutSession = await stripe.checkout.sessions.create(params);
+
+  return NextResponse.json(checkoutSession, {
+    status: 200,
+  });
 }

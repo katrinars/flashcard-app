@@ -2,8 +2,10 @@
 
 import db from "@/firebase";
 import ProgressBar from "@/utils/get-progress";
-import { useUser } from "@clerk/nextjs";
+import { useUser, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import {
+  AppBar, 
+  Toolbar,
   Box,
   Button,
   Card,
@@ -20,6 +22,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import Link from "next/link";
 import { collection, doc, getDoc, writeBatch } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -129,6 +132,89 @@ export default function Generate() {
   };
 
   return (
+    <Box
+      sx={{
+        minHeight: "100vh",
+        backgroundColor: "#000000",
+        color: "white",
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: "Helvetica, Arial, sans-serif",
+      }}
+    >
+      <AppBar
+        position="static"
+        sx={{
+          backgroundColor: "transparent",
+          boxShadow: "none",
+          marginBottom: 18,
+        }}
+      >
+        <Container>
+          <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{
+                fontWeight: "bold",
+                fontFamily: "Helvetica, Arial, sans-serif",
+                lineHeight: 1.25,
+                fontSize: "0.9rem",
+              }}
+            >
+              <Link
+                href="/"
+                passHref
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                Cards
+                <br />
+                Against
+                <br />
+                Confusion
+              </Link>
+            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <SignedOut>
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "white",
+                    color: "black",
+                    "&:hover": {
+                      backgroundColor: "#e0e0e0",
+                    },
+                    mr: 1,
+                    fontFamily: "Helvetica, Arial, sans-serif",
+                  }}
+                  onClick={() => router.push("/sign-in")}
+                >
+                  Sign in
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "#333333",
+                    color: "white",
+                    "&:hover": {
+                      backgroundColor: "#4d4d4d",
+                    },
+                    fontFamily: "Helvetica, Arial, sans-serif",
+                  }}
+                  onClick={() => router.push("/sign-up")}
+                >
+                  Register
+                </Button>
+              </SignedOut>
+              <SignedIn>
+                <Button color="inherit" href="/generate">Add Project</Button>
+                <Button color="inherit" href="/flashcards">Projects</Button>
+                <UserButton />
+              </SignedIn>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
     <Container
       maxWidth={false}
       disableGutters
@@ -308,5 +394,6 @@ export default function Generate() {
         </DialogActions>
       </Dialog>
     </Container>
+    </Box>
   );
 }

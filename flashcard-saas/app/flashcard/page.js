@@ -6,6 +6,7 @@ import {AppBar, Toolbar, Box, Button, Card, CardActionArea, CardContent, Contain
 import {collection, doc, getDocs} from 'firebase/firestore';
 import {useSearchParams} from 'next/navigation';
 import {useEffect, useState} from 'react';
+import Link from "next/link";
 
 export default function Flashcard() {
   const {isLoaded, isSignedIn, user} = useUser();
@@ -53,22 +54,90 @@ export default function Flashcard() {
   };
 
   return (
+    <Box
+    sx={{
+      minHeight: "100vh",
+      backgroundColor: "#000000",
+      color: "white",
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: "Helvetica, Arial, sans-serif",
+    }}
+  >
+  <AppBar
+    position="static"
+    sx={{
+      backgroundColor: "transparent",
+      boxShadow: "none",
+      marginBottom: 18,
+    }}
+  >
+    <Container>
+      <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{
+            fontWeight: "bold",
+            fontFamily: "Helvetica, Arial, sans-serif",
+            lineHeight: 1.25,
+            fontSize: "0.9rem",
+          }}
+        >
+          <Link
+            href="/"
+            passHref
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            Cards
+            <br />
+            Against
+            <br />
+            Confusion
+          </Link>
+        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <SignedOut>
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: "white",
+                color: "black",
+                "&:hover": {
+                  backgroundColor: "#e0e0e0",
+                },
+                mr: 1,
+                fontFamily: "Helvetica, Arial, sans-serif",
+              }}
+              onClick={() => router.push("/sign-in")}
+            >
+              Sign in
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: "#333333",
+                color: "white",
+                "&:hover": {
+                  backgroundColor: "#4d4d4d",
+                },
+                fontFamily: "Helvetica, Arial, sans-serif",
+              }}
+              onClick={() => router.push("/sign-up")}
+            >
+              Register
+            </Button>
+          </SignedOut>
+          <SignedIn>
+            <Button color="inherit" href="/generate">Add Project</Button>
+            <Button color="inherit" href="/flashcards">Projects</Button>
+            <UserButton />
+          </SignedIn>
+        </Box>
+      </Toolbar>
+    </Container>
+  </AppBar>
       <Container sx={{bgcolor:"black"}}>
-        <AppBar position="static" sx={{bgcolor:'black',}}>
-          <Container>
-            <Toolbar>
-              <Typography variant="h6" style={{flexGrow: 1, fontWeight: 'bold', fontStyle: 'Inter',}}>Cards Against Confusion</Typography> {/* change title */}
-              <SignedOut>
-                <Button color="inherit" href="/sign-in">Login</Button>
-                <Button color="inherit" href="/sign-up">Sign Up</Button>
-              </SignedOut>
-              <SignedIn>
-                <Button color="inherit" href="/flashcards">Projects</Button>
-                <UserButton/>
-              </SignedIn>
-            </Toolbar>
-          </Container>
-        </AppBar>
         <Box>
           <Typography variant={'h2'} align={'left'}
                       textTransform={'capitalize'} my={3} sx={{ color: "white",fontWeight: 'bold', fontStyle: 'Inter', }}>
@@ -146,5 +215,6 @@ export default function Flashcard() {
           ))}
         </Grid>
       </Container>
+      </Box>
   );
 }

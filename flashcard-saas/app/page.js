@@ -60,7 +60,7 @@ export default function Home() {
                 Confusion
               </Link>
             </Typography>
-            <Box>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <SignedOut>
                 <Button
                   variant="contained"
@@ -93,6 +93,8 @@ export default function Home() {
                 </Button>
               </SignedOut>
               <SignedIn>
+                <Button color="inherit" href="/generate">Add Project</Button>
+                <Button color="inherit" href="/flashcards">Projects</Button>
                 <UserButton />
               </SignedIn>
             </Box>
@@ -181,19 +183,19 @@ export default function Home() {
         <Grid container spacing={3} sx={{ marginBottom: 12 }}>
           {[
             {
-              title: "Easy Text Input",
+              title: "AI-Powered Task Creation",
               description:
-                "Simply input your text and let our software do the rest. Creating flashcards cannot be easier.",
+                "Simply input your needs, and watch as our AI generates comprehensive, tailored tasks in seconds.",
             },
             {
-              title: "Smart Flashcards",
+              title: "Smart Organization",
               description:
-                "Our AI intelligently breaks down your text into concise flashcards, perfect for studying.",
+                "Our AI prioritizes your tasks, making it easy to know where to start.",
             },
             {
               title: "Accessible Anywhere",
               description:
-                "Access your flashcards from any device, at any time. Study on the go with ease.",
+                "Access your tasks from any device, at any time. Get organized on the go with ease.",
             },
           ].map((feature, index) => (
             <Grid item xs={12} md={4} key={index}>
@@ -250,12 +252,14 @@ export default function Home() {
             variant="body1"
             sx={{ maxWidth: "800px", margin: "0 auto" }}
           >
-            Cards Against Confusion is your intelligent study partner,
-            leveraging AI to transform how you create and interact with
-            flashcards. Whether you're preparing for exams, learning a new
-            language, or expanding your knowledge, Cards Against Confusion
-            offers an intuitive and efficient way to enhance your learning
-            experience.
+            Cards Against Confusion is your smart task manager, blending the fun 
+            of Cards Against Humanity with practical organization. Our AI-driven 
+            app helps you manage and prioritize tasks effortlessly. Just share your needs, 
+            and it will create a tailored task list with suggested priorities. Perfect for 
+            managing multiple projects or simplifying your daily routine, Cards Against 
+            Confusion turns chaos into clear, actionable plans, boosting productivity 
+            and reducing stress.
+
           </Typography>
         </Box>
       </Container>

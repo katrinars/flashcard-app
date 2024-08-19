@@ -22,11 +22,7 @@ export default function LearnMore() {
           Why Choose Cards Against Confusion?
         </Typography>
         <Typography variant="body1" paragraph>
-          Cards Against Confusion is your intelligent study partner, leveraging
-          AI to transform how you create and interact with flashcards. Whether
-          you're preparing for exams, learning a new language, or expanding your
-          knowledge, Cards Against Confusion offers an intuitive and efficient
-          way to enhance your learning experience.
+        Cards Against Confusion is your intelligent task management partner, inspired by the format of Cards Against Humanity but designed to bring order to your daily life. This innovative app leverages AI to transform how you organize and prioritize your work. Simply express your needs to our AI, and it will generate a customized list of tasks complete with suggested priorities, turning chaos into structured, manageable action plans. Whether you're juggling multiple projects, tackling a complex workload, or simply trying to bring order to your daily tasks, Cards Against Confusion offers an intuitive and powerful solution that helps you focus on what matters most, reducing stress and increasing productivity.
         </Typography>
       </Box>
 
@@ -37,11 +33,11 @@ export default function LearnMore() {
         <Grid container spacing={4}>
           <Grid item xs={12} md={4}>
             <Typography variant="h6" gutterBottom>
-              AI-Powered Flashcard Creation
+              AI-Powered Task Creation
             </Typography>
             <Typography variant="body1">
-              Simply input your study material, and watch as our AI generates
-              comprehensive, tailored flashcards in seconds.
+              Simply input your needs, and watch as our AI generates
+              comprehensive, tailored tasks in seconds.
             </Typography>
           </Grid>
           <Grid item xs={12} md={4}>
@@ -49,8 +45,8 @@ export default function LearnMore() {
               Smart Organization
             </Typography>
             <Typography variant="body1">
-              Our AI categorizes and tags your flashcards, making it easy to
-              find and review related concepts.
+              Our AI prioritizes your tasks, making it easy to
+              know where to start.
             </Typography>
           </Grid>
           <Grid item xs={12} md={4}>

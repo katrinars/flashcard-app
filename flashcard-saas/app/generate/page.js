@@ -21,6 +21,7 @@ import {
   Paper,
   TextField,
   Typography,
+  Stack,
 } from "@mui/material";
 import Link from "next/link";
 import { collection, doc, getDoc, writeBatch } from "firebase/firestore";
@@ -203,7 +204,7 @@ export default function Generate() {
                   }}
                   onClick={() => router.push("/sign-up")}
                 >
-                  Register
+                  Sign Up
                 </Button>
               </SignedOut>
               <SignedIn>
@@ -234,9 +235,12 @@ export default function Generate() {
           px: 2,
         }}
       >
-        <Typography variant="h4" gutterBottom align="center">
-          Generate Flashcards
-        </Typography>
+        <Box>
+          <Typography variant={'h2'} align={'center'}
+                      textTransform={'capitalize'} my={3} sx={{ color: "white",fontWeight: 'bold', fontStyle: 'Inter', }}>
+            Create Tasks.
+          </Typography>
+        </Box> 
         <Paper
           sx={{
             p: 4,
@@ -265,7 +269,7 @@ export default function Generate() {
             onClick={handleSubmit}
             fullWidth
           >
-            Generate Flashcards
+            Generate Tasks
           </Button>
           <Box width={"100%"} mt={2}>
             {isLoading && <ProgressBar />}
@@ -274,28 +278,27 @@ export default function Generate() {
       </Box>
       {flashcards.length > 0 && (
         <Box sx={{ mt: 4 }}>
-          <Grid
-            container
-            spacing={4}
-            mx={6}
-            mt={4}
-            justifyContent={"space-around"}
-          >
-            <Grid item xs={12} md={6} mb={3} textTransform={"uppercase"}>
-              <Typography variant="h3">Flashcard Preview</Typography>
-            </Grid>
-            <Grid item xs={12} md={6} mb={3}>
+          
+            <Stack item xs={12} md={6} mb={3} >
+            <Typography variant={'h2'} align={'center'}
+                      textTransform={'capitalize'} my={3} sx={{ color: "white",fontWeight: 'bold', fontStyle: 'Inter', }}>
+            Tasks Preview.
+          </Typography>
               <Button
                 variant="contained"
                 color="secondary"
                 onClick={handleOpen}
-                size={"large"}
+                size={"Large"}
+                sx={{
+                  width: "100%", // Makes the button the same width as the Typography
+                  maxWidth: "400px", // Optional: cap the width if you want it smaller than Typography
+                  margin: "0 auto", // Center the button if the width is smaller
+                }}
               >
-                Save Flashcards for Task Descriptions
+                Save Tasks as a Project
               </Button>
-            </Grid>
-          </Grid>
-          <Typography variant="h6" mb={3}>
+            </Stack>
+          <Typography variant="h6" mb={3} sx={{display:"flex", justifyContent:"center"}}>
             Here's the list of tasks we found for you. Click any card to preview
             descriptions of the tasks. Save your collection to start checking
             tasks off.
@@ -320,7 +323,7 @@ export default function Generate() {
                             transition: "transform 0.6s",
                             transformStyle: "preserve-3d",
                             position: "relative",
-                            height: "200px",
+                            height: "372px",
                             width: "100%",
                             boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
                             transform: flipped[index]
@@ -334,8 +337,8 @@ export default function Generate() {
                             width: "100%",
                             backfaceVisibility: "hidden",
                             display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
+                            justifyContent: "left",
+                            alignItems: "top",
                             boxSizing: "border-box",
                             borderRadius: 2,
                             padding: 2,
@@ -349,13 +352,13 @@ export default function Generate() {
                         <Box>
                           <div>
                             <div>
-                              <Typography variant="h6" sx={{ color: "black" }}>
-                                {flashcard.title}
+                              <Typography variant="h6" sx={{ color: 'black', fontSize: '1.5rem', fontWeight: 'bold', fontStyle: 'Inter',}}>
+                                {flashcard.title}.
                               </Typography>
                             </div>
                           </div>
                           <div>
-                            <Typography variant="body2" sx={{ color: "black" }}>
+                            <Typography variant="body2" sx={{ color: "black", fontSize: '1.5rem', fontWeight: 'bold', fontStyle: 'Inter', }}>
                               {flashcard.description}
                             </Typography>
                           </div>

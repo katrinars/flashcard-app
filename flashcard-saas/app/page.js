@@ -1,164 +1,268 @@
-'use client';
-import getStripe from '@/utils/get-stripe';
-import {SignedIn, SignedOut, UserButton} from '@clerk/nextjs';
-import {AppBar, Box, Button, Container, Grid, Toolbar, Typography} from '@mui/material';
+"use client";
+import {
+  Box,
+  Button,
+  Container,
+  Typography,
+  AppBar,
+  Toolbar,
+  Grid,
+  Card,
+  CardContent,
+} from "@mui/material";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const handleSubmit = async (plan) => {
-
-    const checkoutSession = await fetch('../api/checkout_sessions', {
-      method: 'POST',
-      headers:
-          {'Content-Type': 'application/json'},
-      body: JSON.stringify({plan}),
-    });
-
-    const checkoutSessionJson = await checkoutSession.json();
-
-    if (checkoutSession.status === 500) {
-      console.error('Error creating checkout session:',
-          checkoutSessionJson.error.message);
-      return;
-    }
-
-    const stripe = await getStripe();
-    const {error} = await stripe.redirectToCheckout({
-      sessionId: checkoutSessionJson.id,
-    });
-
-    if (error) {
-      console.warn(error.message);
-    }
-  };
+  const router = useRouter();
 
   return (
-      <Container maxWidth={'xxl'} disableGutters>
-
-        <AppBar position="static">
-          <Container>
-            <Toolbar>
-              <Typography variant="h6" style={{flexGrow: 1}}>Flashcard
-                SaaS</Typography> {/* change title */}
+    <Box
+      sx={{
+        minHeight: "100vh",
+        backgroundColor: "#000000",
+        color: "white",
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: "Helvetica, Arial, sans-serif",
+      }}
+    >
+      <AppBar
+        position="static"
+        sx={{
+          backgroundColor: "transparent",
+          boxShadow: "none",
+          marginBottom: 18,
+        }}
+      >
+        <Container>
+          <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{
+                fontWeight: "bold",
+                fontFamily: "Helvetica, Arial, sans-serif",
+                lineHeight: 1.25,
+                fontSize: "0.9rem",
+              }}
+            >
+              <Link
+                href="/"
+                passHref
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                Cards
+                <br />
+                Against
+                <br />
+                Confusion
+              </Link>
+            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <SignedOut>
-                <Button color="inherit" href="/sign-in">Login</Button>
-                <Button color="inherit" href="/sign-up">Sign Up</Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "white",
+                    color: "black",
+                    "&:hover": {
+                      backgroundColor: "#e0e0e0",
+                    },
+                    mr: 1,
+                    fontFamily: "Helvetica, Arial, sans-serif",
+                  }}
+                  onClick={() => router.push("/sign-in")}
+                >
+                  Sign in
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "#333333",
+                    color: "white",
+                    "&:hover": {
+                      backgroundColor: "#4d4d4d",
+                    },
+                    fontFamily: "Helvetica, Arial, sans-serif",
+                  }}
+                  onClick={() => router.push("/sign-up")}
+                >
+                  Register
+                </Button>
               </SignedOut>
               <SignedIn>
-                <UserButton/>
+                <Button color="inherit" href="/generate">Add Project</Button>
+                <Button color="inherit" href="/flashcards">Projects</Button>
+                <UserButton />
               </SignedIn>
-            </Toolbar>
-          </Container>
-        </AppBar>
-        <Container>
-          <Box sx={{textAlign: 'center', my: 4}}>
-            <Typography variant="h2" component="h1" gutterBottom>
-              Welcome to Flashcard SaaS
-            </Typography>
-            <Typography variant="h5" component="h2" gutterBottom>
-              {' '}
-              The easiest way to create flashcards from your text.
-            </Typography>
-            <Button variant="contained" color="primary" sx={{mt: 2, mr: 2}}
-                    href="/generate">
-              Get Started
-            </Button>
-            <Button variant="outlined" color="primary"
-                    sx={{mt: 2}}> {/* need to add link and content if including */}
-              Learn More
-            </Button>
-          </Box>
-          <Box sx={{my: 6, textAlign: 'center'}}>
-            <Typography variant="h4" component="h2" gutterBottom
-                        textAlign={'center'}>
-              Features
-            </Typography>
-            <Grid container spacing={4}>
-              <Box
-                  sx={{
-                    display: 'flex',
-                    padding: '20px',
-                  }}
-              >
-                <Grid item xs={12} md={4} px={2}>
-                  <Typography variant="h6">Sleek Design</Typography>
-                  <Typography>
-                    {' '}
-                    You can create flashcards with a sleek design that is easy
-                    to use.
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} md={4} px={2}>
-                  <Typography variant="h6">One Monthly Price</Typography>
-                  <Typography>
-                    {' '}
-                    For one monthly price, you can create as many flashcards as
-                    you want.
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} md={4} px={2}>
-                  <Typography variant="h6">Access on Any Device</Typography>
-                  <Typography>
-                    {' '}
-                    Use the app on any device, including your phone, tablet, or
-                    computer.
-                  </Typography>
-                </Grid>
-              </Box>
-            </Grid>
-          </Box>
-
-          <Box sx={{my: 6, textAlign: 'center'}}>
-            <Typography variant="h4" gutterBottom>Pricing</Typography>
-            <Grid container spacing={4}>
-              <Grid item xs={12} md={6}>
-                <Box                            // box around student plan
-                    sx={{
-                      p: 3,
-                      border: '1px solid #ccc',
-                      borderColor: 'primary.main',
-                      borderRadius: '5px',
-                      height: '100%',
-                    }}
-                >
-                  <Typography variant="h6">
-                    Student - $3 / mo
-                  </Typography>
-                  <Typography>
-                    {' '}
-                    3 flashcards per month. Perfect for students.
-                  </Typography>
-                  <Button variant="outlined" color="primary" sx={{mt: 2, mr: 2}}
-                          onClick={() => handleSubmit('Student')}>
-                    CHOOSE STUDENT
-                  </Button>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Box                            // box around pro plan
-                    sx={{
-                      p: 3,
-                      border: '1px solid #ccc',
-                      borderColor: 'primary.main',
-                      borderRadius: '5px',
-                      height: '100%',
-                    }}
-                >
-                  <Typography variant="h6">
-                    Pro - $10 / mo
-                  </Typography>
-                  <Typography>
-                    {' '}
-                    Up to 20 flashcards per month. Perfect for personal use.
-                  </Typography>
-                  <Button variant="outlined" color="primary" sx={{mt: 2, mr: 2}}
-                          onClick={() => handleSubmit('Pro')}>
-                    CHOOSE PRO
-                  </Button>
-                </Box>
-              </Grid>
-            </Grid>
-          </Box>
+            </Box>
+          </Toolbar>
         </Container>
+      </AppBar>
+
+      <Container
+        maxWidth="md"
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        <Typography
+          variant="h1"
+          component="h1"
+          gutterBottom
+          sx={{
+            color: "white",
+            fontWeight: "bold",
+            fontSize: { xs: "3rem", sm: "4rem", md: "5rem" },
+            lineHeight: 1.2,
+            fontFamily: "Helvetica, Arial, sans-serif",
+          }}
+        >
+          Cards
+          <br />
+          Against
+          <br />
+          Confusion
+        </Typography>
+        <Typography
+          variant="h4"
+          gutterBottom
+          sx={{
+            marginTop: 2,
+            marginBottom: 4,
+            maxWidth: "600px",
+            fontFamily: "Helvetica, Arial, sans-serif",
+          }}
+        >
+          A task app for the chronically overwhelmed.
+        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            width: "100%",
+            marginBottom: 12,
+          }}
+        >
+          <Button
+            component={Link}
+            href="/generate"
+            variant="contained"
+            size="large"
+            sx={{
+              backgroundColor: "#333333",
+              color: "white",
+              "&:hover": {
+                backgroundColor: "#4d4d4d",
+              },
+              px: 4,
+            }}
+          >
+            Get Started
+          </Button>
+        </Box>
+
+        <Typography
+          variant="h2"
+          component="h2"
+          gutterBottom
+          sx={{
+            color: "white",
+            fontWeight: "bold",
+            marginBottom: 6,
+            textAlign: "center",
+          }}
+        >
+          Features
+        </Typography>
+        <Grid container spacing={3} sx={{ marginBottom: 12 }}>
+          {[
+            {
+              title: "AI-Powered Task Creation",
+              description:
+                "Simply input your needs, and watch as our AI generates comprehensive, tailored tasks in seconds.",
+            },
+            {
+              title: "Smart Organization",
+              description:
+                "Our AI prioritizes your tasks, making it easy to know where to start.",
+            },
+            {
+              title: "Accessible Anywhere",
+              description:
+                "Access your tasks from any device, at any time. Get organized on the go with ease.",
+            },
+          ].map((feature, index) => (
+            <Grid item xs={12} md={4} key={index}>
+              <Card
+                sx={{
+                  height: "100%",
+                  backgroundColor: "transparent",
+                  color: "white",
+                  border: "1px solid #333",
+                  boxShadow: "none",
+                }}
+              >
+                <CardContent>
+                  <Box sx={{ textAlign: "center", marginBottom: 2 }}>
+                    <Typography
+                      variant="h4"
+                      component="div"
+                      sx={{ marginBottom: 1 }}
+                    >
+                      {index + 1}
+                    </Typography>
+                  </Box>
+                  <Typography
+                    variant="h6"
+                    component="h3"
+                    gutterBottom
+                    sx={{ textAlign: "center" }}
+                  >
+                    {feature.title}
+                  </Typography>
+                  <Typography variant="body2" sx={{ textAlign: "center" }}>
+                    {feature.description}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+
+        <Box sx={{ textAlign: "center", marginTop: 12, marginBottom: 12 }}>
+          <Typography
+            variant="h3"
+            component="h3"
+            gutterBottom
+            sx={{
+              color: "white",
+              fontWeight: "bold",
+              marginBottom: 2,
+            }}
+          >
+            Why Choose Cards Against Confusion?
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{ maxWidth: "800px", margin: "0 auto" }}
+          >
+            Cards Against Confusion is your smart task manager, blending the fun 
+            of Cards Against Humanity with practical organization. Our AI-driven 
+            app helps you manage and prioritize tasks effortlessly. Just share your needs, 
+            and it will create a tailored task list with suggested priorities. Perfect for 
+            managing multiple projects or simplifying your daily routine, Cards Against 
+            Confusion turns chaos into clear, actionable plans, boosting productivity 
+            and reducing stress.
+
+          </Typography>
+        </Box>
       </Container>
+    </Box>
   );
 }

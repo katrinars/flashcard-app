@@ -1,5 +1,5 @@
-import {NextResponse} from 'next/server';
-import Stripe from 'stripe';
+import { NextResponse } from "next/server";
+import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -9,49 +9,50 @@ const formatAmountForStripe = (amount, currency) => {
 
 export async function GET(req) {
   const searchParams = req.nextUrl.searchParams;
-  const session_id = searchParams.get('session_id');
+  const session_id = searchParams.get("session_id");
 
   try {
     const checkoutSession = await stripe.checkout.sessions.retrieve(session_id);
     return NextResponse.json(checkoutSession);
-
   } catch (error) {
-    console.error('Error retrieving checkout session:', error);
-    return NextResponse.json({error: {message: error.message}}, {
-      status: 500,
-    });
-
+    console.error("Error retrieving checkout session:", error);
+    return NextResponse.json(
+      { error: { message: error.message } },
+      {
+        status: 500,
+      }
+    );
   }
 }
 
 export async function POST(req) {
   const body = await req.json();
-  const {plan} = body;
+  const { plan } = body;
 
   let amount;
   switch (plan) {
-    case 'Student':
+    case "Student":
       amount = 3;
       break;
-    case 'Pro':
+    case "Pro":
       amount = 10;
       break;
     default:
-      return NextResponse.json({error: 'Invalid plan'}, {status: 400});
+      return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
   }
   const params = {
-    mode: 'subscription',
-    payment_method_types: ['card'],
+    mode: "subscription",
+    payment_method_types: ["card"],
     line_items: [
       {
         price_data: {
-          currency: 'usd',
+          currency: "usd",
           product_data: {
             name: `${plan} Subscription`,
           },
-          unit_amount: formatAmountForStripe(amount, 'usd'), // $10.00
+          unit_amount: formatAmountForStripe(amount, "usd"), // $10.00
           recurring: {
-            interval: 'month',
+            interval: "month",
             interval_count: 1,
           },
         },

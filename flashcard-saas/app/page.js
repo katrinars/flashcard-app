@@ -60,7 +60,7 @@ export default function Home() {
                 Confusion
               </Link>
             </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               <SignedOut>
                 <Button
                   variant="contained"
@@ -93,8 +93,15 @@ export default function Home() {
                 </Button>
               </SignedOut>
               <SignedIn>
-                <Button color="inherit" href="/generate">Add Project</Button>
-                <Button color="inherit" href="/flashcards">Projects</Button>
+                <Button color="inherit" href="/generate">
+                  Add Project
+                </Button>
+                <Button color="inherit" href="/flashcards">
+                  Projects
+                </Button>
+                <Button color="inherit" href="/pricing">
+                  Pricing
+                </Button>
                 <UserButton />
               </SignedIn>
             </Box>
@@ -252,14 +259,13 @@ export default function Home() {
             variant="body1"
             sx={{ maxWidth: "800px", margin: "0 auto" }}
           >
-            Cards Against Confusion is your smart task manager, blending the fun 
-            of Cards Against Humanity with practical organization. Our AI-driven 
-            app helps you manage and prioritize tasks effortlessly. Just share your needs, 
-            and it will create a tailored task list with suggested priorities. Perfect for 
-            managing multiple projects or simplifying your daily routine, Cards Against 
-            Confusion turns chaos into clear, actionable plans, boosting productivity 
-            and reducing stress.
-
+            Cards Against Confusion is your smart task manager, blending the fun
+            of Cards Against Humanity with practical organization. Our AI-driven
+            app helps you manage and prioritize tasks effortlessly. Just share
+            your needs, and it will create a tailored task list with suggested
+            priorities. Perfect for managing multiple projects or simplifying
+            your daily routine, Cards Against Confusion turns chaos into clear,
+            actionable plans, boosting productivity and reducing stress.
           </Typography>
         </Box>
       </Container>

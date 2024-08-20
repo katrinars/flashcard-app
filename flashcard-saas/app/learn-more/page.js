@@ -22,7 +22,16 @@ export default function LearnMore() {
           Why Choose Cards Against Confusion?
         </Typography>
         <Typography variant="body1" paragraph>
-        Cards Against Confusion is your intelligent task management partner, inspired by the format of Cards Against Humanity but designed to bring order to your daily life. This innovative app leverages AI to transform how you organize and prioritize your work. Simply express your needs to our AI, and it will generate a customized list of tasks complete with suggested priorities, turning chaos into structured, manageable action plans. Whether you're juggling multiple projects, tackling a complex workload, or simply trying to bring order to your daily tasks, Cards Against Confusion offers an intuitive and powerful solution that helps you focus on what matters most, reducing stress and increasing productivity.
+        Cards Against Confusion is your intelligent task management partner,
+          inspired by the format of Cards Against Humanity but designed to bring
+          order to your daily life. This innovative app leverages AI to transform
+          how you organize and prioritize your work. Simply express your needs
+          to our AI, and it will generate a customized list of tasks complete
+          with suggested priorities, turning chaos into structured, manageable
+          action plans. Whether you&apos;re juggling multiple projects, tackling a
+          complex workload, or simply trying to bring order to your daily tasks,
+          Cards Against Confusion offers an intuitive and powerful solution that
+          helps you focus on what matters most, reducing stress and increasing productivity.
         </Typography>
       </Box>
 

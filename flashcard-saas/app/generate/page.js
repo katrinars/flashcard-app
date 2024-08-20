@@ -299,7 +299,7 @@ export default function Generate() {
               </Button>
             </Stack>
           <Typography variant="h6" mb={3} sx={{display:"flex", justifyContent:"center"}}>
-            Here's the list of tasks we found for you. Click any card to preview
+            Here&apos;s the list of tasks we found for you. Click any card to preview
             descriptions of the tasks. Save your collection to start checking
             tasks off.
           </Typography>
